@@ -7,7 +7,7 @@ const storage = new Storage();
 /**
  * TODO(developer): Uncomment the following lines before running the sample.
  */
-const bucketName = 'ocr_projet';
+const bucketName = 'ocr_project';
 const filename = '/Users/joffrey/Desktop/PST/image.jpg';
 
 // Uploads a local file to the bucket
