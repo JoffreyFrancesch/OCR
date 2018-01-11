@@ -1,0 +1,42 @@
+body{
+  background-color: #55DAAF;
+}
+
+h1{
+
+  font-family: 'Oswald', sans-serif;
+  margin-top: 7%;
+  font-size: 50px;
+  text-decoration: underline;
+  text-decoration-color: #323A4F;
+  color : #323A4F;
+  text-align: center;
+}
+
+p{
+  text-align: center;
+  font-family: 'Roboto',monospace;
+  font-size: 25px;
+  color: #E1E6E6;
+  font-weight: lighter;
+}
+
+.platypus{
+  width: 75%;
+  margin-left: 20%;
+  margin-top: 5%;
+}
+
+.esiea{
+  width: 50%;
+  margin-left: 20%;
+  margin-top: 5%;
+}
+
+.input{
+  text-align: center;
+}
+
+.row{
+  background-color: #468189
+}

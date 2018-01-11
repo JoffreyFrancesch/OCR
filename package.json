@@ -9,6 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@google-cloud/storage": "^1.5.0"
+    "@google-cloud/storage": "^1.5.0",
+    "@google-cloud/vision": "^0.14.0",
+    "express": "^4.16.2",
+    "jsonfile": "^4.0.0"
   }
 }

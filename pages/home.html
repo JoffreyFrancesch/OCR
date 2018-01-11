@@ -2,14 +2,31 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="style.css"/>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <link rel="stylesheet" href="home.css"/>
     <link href="https://fonts.googleapis.com/css?family=Oswald" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
     <title>OCR PROJECT</title>
   </head>
   <body>
-    <h1>OCR PROJECT</h1>
+    <div class="row">
+      <div class="col-md-4">
+        <img class="platypus" src="platypus_logo.png">
+      </div>
+      <div class="col-md-4">
+        <h1>OCR PROJECT</h1>
+        <br>
+        <br>
+      </div>
+      <div class="col-md-4">
+        <img class="esiea" src="logo-esiea-transparent.png">
+      </div>
+    </div>
+    <br>
     <p>Veuillez déposer votre image à analyser</p>
-    <h2>TODO --> DROP FILE ZONE</h2>
+    <div class="input">
+      <input type="file" name="image" accept="image/*">
+      <button class="btn btn-primary" >GO</button>
+    </div>
   </body>
 </html>
