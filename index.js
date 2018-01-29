@@ -2,29 +2,35 @@
 const Storage = require('@google-cloud/storage');
 const vision = require('@google-cloud/vision');
 const jsonfile = require('jsonfile');
-const pdf2pic = require('pdf2pic')
+const pdf2pic = require('pdf2pic');
+
+
 // Creates a client
 const storage = new Storage();
 const client = new vision.ImageAnnotatorClient();
 // Create a converter
 let converter = new pdf2pic({
   density: 100,
-  savename: "out",
+  savename: "FDP",
   savedir:"./Images",
   format: "jpeg",
   size: 600
-})
+});
 //file indexing
 const bucketName = 'ocr_project';
 const fileToConvert = '/Users/joffrey/Desktop/PST/fiche/EFREI.pdf';
 const jsonDescription = '/Users/joffrey/Desktop/PST/JSON/out_description.json';
 const jsonFull = '/Users/joffrey/Desktop/PST/JSON/out_full.json';
 
-converter.convert(fileToConvert).then(resolve => {
-  console.log("DONE");
-})
+if (fileToConvert.endWith(".pdf")){
+  converter.convert(fileToConvert).then(resolve => {
+    console.log("DONE");
+  })
+  const fileName = './Images/FDP_1.jpeg';
+} else {
+  fileName = fileToConvert;
+}
 
-const fileName = './Images/out_1.jpeg'
 
 // Uploads a local file to the bucket
 storage
