@@ -15,6 +15,7 @@ suivi administratif (absences, retards, ajout ou retrait d’un étudiant dans u
 groupe de travail pour permettre la mise à jour des listes...), mais aussi
 pédagogique (suivi de l’assiduité, recensement des points de participation...)
 des nombreux élèves qui suivent un enseignement made in Platypus !
+
 Interface du projet
 -------------------
 
