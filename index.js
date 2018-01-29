@@ -25,15 +25,16 @@ let converter = new pdf2pic({
 const fileToConvert = '/Users/joffrey/Desktop/PST/fiche/EFREI.pdf';
 const jsonDescription = '/Users/joffrey/Desktop/PST/JSON/out_description.json';
 const jsonFull = '/Users/joffrey/Desktop/PST/JSON/out_full.json';
+var fileName;
 
 //Do the convertion only if is a PDF
-if (fileToConvert.endWith(".pdf")){
+if (fileToConvert.endsWith(".pdf")){
   converter.convert(fileToConvert).then(resolve => {
-    console.log("DONE");
+    console.log(`Conversion done and save at ${fileName}`);
   })
-  const fileName = './Images/FDP_1.jpeg';
+   fileName = './Images/FDP_1.jpeg';
 } else {
-  fileName = fileToConvert;
+   fileName = fileToConvert;
 }
 
 
