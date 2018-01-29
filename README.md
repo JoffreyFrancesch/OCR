@@ -21,8 +21,7 @@ Sorti du programme
 
 Le projet sortira une fichier JSON qui suivra cette syntaxe :
 
-`JSON
-[
+`[
 	{
 metadata : {
 id : 0B7mNn544KuPGaE9CbDNINFJWUlU,
@@ -49,6 +48,4 @@ free_part : tout ce qui ne rentre pas dans les champs précédents.
 // document suivant, même structure
 {
 }
-]
-
-`
+]`
