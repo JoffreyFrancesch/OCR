@@ -16,20 +16,22 @@ let converter = new pdf2pic({
 })
 //file indexing
 const bucketName = 'ocr_project';
-const filename = '/Users/joffrey/Desktop/PST/fiche/ESILV.jpeg';
-const json_description = '/Users/joffrey/Desktop/PST/JSON/out_description.json';
-const json_full = '/Users/joffrey/Desktop/PST/JSON/out_full.json';
+const fileToConvert = '/Users/joffrey/Desktop/PST/fiche/EFREI.pdf';
+const jsonDescription = '/Users/joffrey/Desktop/PST/JSON/out_description.json';
+const jsonFull = '/Users/joffrey/Desktop/PST/JSON/out_full.json';
 
-converter.convert(filename).then(resolve => {
+converter.convert(fileToConvert).then(resolve => {
   console.log("DONE");
 })
+
+const fileName = './Images/out_1.jpeg'
 
 // Uploads a local file to the bucket
 storage
   .bucket(bucketName)
-  .upload(filename)
+  .upload(fileName)
   .then(() => {
-    console.log(`${filename} uploaded to ${bucketName}.`);
+    console.log(`${fileName} uploaded to ${bucketName}.`);
   })
   .catch(err => {
     console.error('ERROR:', err);
@@ -37,13 +39,12 @@ storage
 
 //First Detection with GOOGLE VISION
   client
-  .textDetection(filename)
+  .textDetection(fileName)
   .then(results => {
-    const detect = results[0].textAnnotations;
-    console.log('Text:');
+    const detect = results[0].textAnnotations
     detect.forEach(function(text){
-      jsonfile.writeFileSync(json_description,text.description,{flag : 'a'});
-      jsonfile.writeFileSync(json_full,text,{flag : 'a'});
+      jsonfile.writeFileSync(jsonDescription,text.description,{flag : 'a'});
+      jsonfile.writeFileSync(jsonFull,text,{flag : 'a'});
     })
   })
   .catch(err => {
