@@ -55,6 +55,12 @@ if (fileToConvert.endsWith(".pdf")){
   .then(results => {
     const detect = results[0].textAnnotations
     detect.forEach(function(text){
+      //if (text.description.startsWith("TD")){
+      //  jsonfile.writeFileSync(jsonDescription,{ lesson : 'text.description'},{flag : 'a'})
+      //}
+      //if (text.description.startsWith("Lundi")){
+      //  jsonfile.writeFileSync(jsonDescription,{ date : 'text.description'},{flag : 'a'})
+      //}
       jsonfile.writeFileSync(jsonDescription,text.description,{flag : 'a'});
       jsonfile.writeFileSync(jsonFull,text,{flag : 'a'});
     })
