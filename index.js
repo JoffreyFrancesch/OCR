@@ -4,6 +4,7 @@ const vision = require('@google-cloud/vision');
 const jsonfile = require('jsonfile');
 const pdf2pic = require('pdf2pic');
 const googleUrl = require('google-url-helper');
+const fs = require('fs')
 
 
 // Creates a client
@@ -43,20 +44,30 @@ if (fileToConvert.endsWith(".pdf")){
 
 //First Detection with GOOGLE VISION
   client
-  .textDetection(fileName)
+  .documentTextDetection(fileName)
   .then(results => {
-    const detect = results[0].textAnnotations
-    detect.forEach(function(text){
-      //formatation du Json
-      if (text.description.startsWith("TD")){
-       jsonfile.writeFileSync(jsonOutput,{ lesson : text.description},{flag : 'a'})
-      }
-      if (text.description.startsWith("Lundi") || text.description.startsWith("Mardi") || text.description.startsWith("Mercredi") || text.description.startsWith("Jeudi") || text.description.startsWith("Vendredi")){
-        jsonfile.writeFileSync(jsonOutput,{ date : text.description},{flag : 'a'})
-      } else {
-        jsonfile.writeFileSync(jsonOutput,text.description,{flag : 'a'});
-      }
-    })
+    const detect = results[0].fullTextAnnotation
+
+    console.log(detect.text);
+    jsonfile.writeFile(jsonOutput,detect.text)
+    // extraire dans un fichier annexe et l'analyser apres ?
+    // fs.unlink(fichierAnnexe, (err) =>{
+    //   if (err) throw err;
+    //   console.log("delete with sucess");
+    // })
+
+
+    // detect.forEach(function(text){
+    //   //formatation du Json
+    //   if (text.description.startsWith("TD")){
+    //    jsonfile.writeFile(jsonOutput,JSON.stringify({lesson : text.description}),{flag : 'a'})
+    //   }
+    //   if (text.description.startsWith("Lundi") || text.description.startsWith("Mardi") || text.description.startsWith("Mercredi") || text.description.startsWith("Jeudi") || text.description.startsWith("Vendredi")){
+    //     jsonfile.writeFile(jsonOutput,JSON.stringify({date : text.description}),{flag : 'a'})
+    //   } else {
+    //     jsonfile.writeFile(jsonOutput,text.description,{flag : 'a'});
+    //   }
+    // })
     console.log(`Conversion done JSON file save at ${jsonOutput}`)
   })
   .catch(err => {
