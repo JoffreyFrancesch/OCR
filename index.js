@@ -1,3 +1,4 @@
+//export GOOGLE_APPLICATION_CREDENTIALS=PATH_TO_KEY_FILE
 // Imports the Google Cloud client library and other library
 const vision = require('@google-cloud/vision');
 const jsonfile = require('jsonfile');
@@ -48,9 +49,9 @@ if (fileToConvert.endsWith(".pdf")){
     detect.forEach(function(text){
       //formatation du Json
       if (text.description.startsWith("TD")){
-       jsonfile.writeFileSync(jsonOutput,{ lesson : 'text.description'},{flag : 'a'})
+       jsonfile.writeFileSync(jsonOutput,{ lesson : text.description},{flag : 'a'})
       }
-      if (text.description.startsWith("Lundi")){
+      if (text.description.startsWith("Lundi") || text.description.startsWith("Mardi") || text.description.startsWith("Mercredi") || text.description.startsWith("Jeudi") || text.description.startsWith("Vendredi")){
         jsonfile.writeFileSync(jsonOutput,{ date : text.description},{flag : 'a'})
       } else {
         jsonfile.writeFileSync(jsonOutput,text.description,{flag : 'a'});
