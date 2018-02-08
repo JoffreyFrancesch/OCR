@@ -27,7 +27,6 @@ let converter = new pdf2pic({
 
 const id = 'output';
 
-//const bucketName = 'ocr_project';
 const fileToConvert = '/Users/joffrey/Desktop/PST/fiche/EFREI.pdf';
 const jsonOutput = `/Users/joffrey/Desktop/PST/JSON/${id}.json`;
 var fileName;
@@ -42,6 +41,21 @@ if (fileToConvert.endsWith(".pdf")){
    fileName = fileToConvert;
 }
 
+
+function writeInFormatJson(text){
+  //TODO all case need to be implements
+  if(text.match("lundi") || text.match("mardi") || text.match("mercredi") || text.match("jeudi") || text.match("vendredi") || text.match("samedi")){
+    fs.appendFileSync(jsonOutput,`"date" : "${text}",`);
+  } else if (text.match("lepoivre") || text.match("benmessaoud") || text.match("marshall")) {
+    fs.appendFileSync(jsonOutput,`"teacher" : "${text}",`);
+  } else if (text.match("td")) {
+    fs.appendFileSync(jsonOutput,`"lesson" : "${text}",`);
+  } else if (text.match("efrei") || text.match("esiea") || text.match("esilv")) {
+    fs.appendFileSync(jsonOutput,`"school" : "${text}",`);
+  } else {
+    console.log(text);
+  }
+}
 //First Detection with GOOGLE VISION
   client
   .documentTextDetection(fileName)
@@ -49,25 +63,14 @@ if (fileToConvert.endsWith(".pdf")){
     var detect = results[0].fullTextAnnotation
     var detectTable = detect.text.split("\n");
     var i = 0;
+    fs.appendFileSync(jsonOutput,"{ \"content\" : {");
     while (i < detectTable.length){
-      console.log(detectTable[i]);
-      i++
+      //console.log(detectTable[i]);
+
+      writeInFormatJson(detectTable[i].toLowerCase());
+      i++;
     }
-
-    jsonfile.writeFile(jsonOutput,detectTable);
-
-
-    // detect.forEach(function(text){
-    //   //formatation du Json
-    //   if (text.description.startsWith("TD")){
-    //    jsonfile.writeFile(jsonOutput,JSON.stringify({lesson : text.description}),{flag : 'a'})
-    //   }
-    //   if (text.description.startsWith("Lundi") || text.description.startsWith("Mardi") || text.description.startsWith("Mercredi") || text.description.startsWith("Jeudi") || text.description.startsWith("Vendredi")){
-    //     jsonfile.writeFile(jsonOutput,JSON.stringify({date : text.description}),{flag : 'a'})
-    //   } else {
-    //     jsonfile.writeFile(jsonOutput,text.description,{flag : 'a'});
-    //   }
-    // })
+    fs.appendFileSync(jsonOutput,'}')
     console.log(`Conversion done JSON file save at ${jsonOutput}`)
   })
   .catch(err => {
