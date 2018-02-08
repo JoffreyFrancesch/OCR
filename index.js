@@ -46,15 +46,15 @@ if (fileToConvert.endsWith(".pdf")){
   client
   .documentTextDetection(fileName)
   .then(results => {
-    const detect = results[0].fullTextAnnotation
+    var detect = results[0].fullTextAnnotation
+    var detectTable = detect.text.split("\n");
+    var i = 0;
+    while (i < detectTable.length){
+      console.log(detectTable[i]);
+      i++
+    }
 
-    console.log(detect.text);
-    jsonfile.writeFile(jsonOutput,detect.text)
-    // extraire dans un fichier annexe et l'analyser apres ?
-    // fs.unlink(fichierAnnexe, (err) =>{
-    //   if (err) throw err;
-    //   console.log("delete with sucess");
-    // })
+    jsonfile.writeFile(jsonOutput,detectTable);
 
 
     // detect.forEach(function(text){
