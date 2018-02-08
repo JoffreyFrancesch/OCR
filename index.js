@@ -41,66 +41,68 @@ if (fileToConvert.endsWith(".pdf")) {
   fileName = fileToConvert;
 }
 
-function writeInFormatJsonContent(text, compteur,array,i) {
-  //TODO all case need to be implements
+//pour la derniere ligne de la parti content
+function writeInFormatJsonContentEnd(text) {
+  if (text.match("lundi") || text.match("mardi") || text.match("mercredi") || text.match("jeudi") || text.match("vendredi") || text.match("samedi")) {
+    fs.appendFileSync(jsonOutput, `"date" : "${text}"`);
+  } else if (text.match("lepoivre") || text.match("benmessaoud") || text.match("marshall")) {
+    fs.appendFileSync(jsonOutput, `"teacher" : "${text}"`);
+  } else if (text.match("td")) {
+    fs.appendFileSync(jsonOutput, `"lesson" : "${text}"`);
+  } else if (text.match("efrei") || text.match("esiea") || text.match("esilv")) {
+    fs.appendFileSync(jsonOutput, `"school" : "${text}"`);
+  }
+}
+//pour les premiere lignes de la parti content
+function writeInFormatJsonContent(text, compteur) {
   if (compteur < 3) {
-    if (text.match("lundi") || text.match("mardi") ||  text.match("mercredi") || text.match("jeudi") || text.match("vendredi") || text.match("samedi")) {
+    if (text.match("lundi") || text.match("mardi") || text.match("mercredi") || text.match("jeudi") || text.match("vendredi") || text.match("samedi")) {
       fs.appendFileSync(jsonOutput, `"date" : "${text}",`);
-      array.splice(i,1);
       return true;
     } else if (text.match("lepoivre") || text.match("benmessaoud") || text.match("marshall")) {
       fs.appendFileSync(jsonOutput, `"teacher" : "${text}",`);
-      array.splice(i,1);
       return true;
     } else if (text.match("td")) {
       fs.appendFileSync(jsonOutput, `"lesson" : "${text}",`);
-      array.splice(i,1);
       return true;
-    } else if (text.match("efrei") ||  text.match("esiea") || text.match("esilv")) {
+    } else if (text.match("efrei") || text.match("esiea") || text.match("esilv")) {
       fs.appendFileSync(jsonOutput, `"school" : "${text}",`);
-      array.splice(i,1);
       return true;
     }
   } else {
-    if (text.match("lundi") || text.match("mardi") ||  text.match("mercredi") || text.match("jeudi") || text.match("vendredi") || text.match("samedi")) {
-      fs.appendFileSync(jsonOutput, `"date" : "${text}"`);
-      array.splice(i,1);
-    } else if (text.match("lepoivre") || text.match("benmessaoud") || text.match("marshall")) {
-      fs.appendFileSync(jsonOutput, `"teacher" : "${text}"`);
-      array.splice(i,1);
-    } else if (text.match("td")) {
-      fs.appendFileSync(jsonOutput, `"lesson" : "${text}"`);
-      array.splice(i,1);
-    } else if (text.match("efrei") ||  text.match("esiea") || text.match("esilv")) {
-      fs.appendFileSync(jsonOutput, `"school" : "${text}"`);
-      array.splice(i,1);
-    }
+    writeInFormatJsonContentEnd(text);
   }
-
 }
 
-function remove(array, element) {
-  const index = array.indexOf(element);
-  array.splice(index, 1)
+function writeInFormatJsonStudent(text, array, i) {
+  //if (text.match("lepoivre") || text.match("benmessaoud") || text.match("marshall")){
+  //  return;
+  //} else {
+  fs.appendFileSync(jsonOutput, `{"name" : "${text}"},`);
+  //}
 }
+
+
 //First Detection with GOOGLE VISION
 client
   .documentTextDetection(fileName)
   .then(results => {
     var detect = results[0].fullTextAnnotation
-    var detectTable = detect.text.split("\n");
-    var i = 0;
+    var detectArray = detect.text.split("\n");
     var compteur = 0;
     fs.appendFileSync(jsonOutput, "{ \"content\" : {");
-    while (i < detectTable.length) {
-      if (writeInFormatJsonContent(detectTable[i].toLowerCase(), compteur, detectTable,i)) {
+    for (var i = 0; i < detectArray.length; i++) {
+      if (writeInFormatJsonContent(detectArray[i].toLowerCase(), compteur, detectArray, i)) {
         compteur += 1;
       }
-      console.log(detectTable[i]);
-      i++;
     }
-    console.log(detectTable);
-    fs.appendFileSync(jsonOutput, '}}')
+    fs.appendFileSync(jsonOutput, '}, "Student" : [');
+    for (var i = 0; i < detectArray.length; i++) {
+      if (detectArray[i].match(",")) {
+        writeInFormatJsonStudent(detectArray[i].toLowerCase(), detectArray, i);
+      }
+    }
+    fs.appendFileSync(jsonOutput, ']}');
     console.log(`Conversion done JSON file save at ${jsonOutput}`)
   })
   .catch(err => {
