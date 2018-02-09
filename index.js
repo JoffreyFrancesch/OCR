@@ -72,7 +72,6 @@ function writeInFormatJsonContent(text, compteur) {
   } else {
     writeInFormatJsonContentEnd(text);
   }
-  //rray.splice();
 }
 
 //pour la liste des etudiants

@@ -20,14 +20,14 @@ des nombreux élèves qui suivent un enseignement made in Platypus !
 Interface du projet
 -------------------
 
-L'envoie des fichiers se fera via une plateforme Web
+L'envoi des fichiers se fera via une plateforme Web
 
 ![Screen plateforme](pages/screen.png)
 
 Sorti du programme
 ------------------
 
-Le projet sortira une fichier JSON qui suivra cette syntaxe :
+Le projet sortira un fichier JSON qui suivra cette syntaxe :
 
 ```
 [
@@ -70,4 +70,4 @@ TODO LIST
 * [ ] Ecriture des 'metadata'
 	* [ ] id
 	* [ ] title
-* [ ] Ecriture des informations non utilsées 
+* [ ] Ecriture des informations non utilsées
