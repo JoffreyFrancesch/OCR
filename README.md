@@ -59,12 +59,12 @@ free_part : tout ce qui ne rentre pas dans les champs précédents.
 TODO LIST
 ---------
 
-* [x]  Ecriture du 'content'
+* [x]  Ecriture du 'header'
 	* [x] lesson
 	* [x] teacher
 	* [x] date
 	* [x]  school
-* [x]  Ecriture de la liste des 'Student'
+* [x]  Ecriture de la liste des 'students'
 	* [x] liste des etudiants
 	* [x] suppresion du professeur s'il est inclus
 * [ ] Ecriture des 'metadata'
