@@ -1,4 +1,4 @@
-//export GOOGLE_APPLICATION_CREDENTIALS=PATH_TO_KEY_FILE
+//export GOOGLE_APPLICATION_CREDENTIALS = PATH_TO_KEY_FILE
 // Imports the Google Cloud client library and other library
 const vision = require('@google-cloud/vision');
 const jsonfile = require('jsonfile');
@@ -30,6 +30,7 @@ const id = 'output';
 const fileToConvert = '/Users/joffrey/Desktop/PST/fiche/EFREI.pdf';
 const jsonOutput = `/Users/joffrey/Desktop/PST/JSON/${id}.json`;
 var fileName;
+var teacherName;
 
 //Do the convertion only if is a PDF
 if (fileToConvert.endsWith(".pdf")) {
@@ -47,6 +48,7 @@ function writeInFormatJsonContentEnd(text) {
     fs.appendFileSync(jsonOutput, `"date" : "${text}"`);
   } else if (text.match("lepoivre") || text.match("benmessaoud") || text.match("marshall")) {
     fs.appendFileSync(jsonOutput, `"teacher" : "${text}"`);
+    teacherName = text;
   } else if (text.match("td")) {
     fs.appendFileSync(jsonOutput, `"lesson" : "${text}"`);
   } else if (text.match("efrei") || text.match("esiea") || text.match("esilv")) {
@@ -61,6 +63,7 @@ function writeInFormatJsonContent(text, compteur) {
       return true;
     } else if (text.match("lepoivre") || text.match("benmessaoud") || text.match("marshall")) {
       fs.appendFileSync(jsonOutput, `"teacher" : "${text}",`);
+      teacherName = text;
       return true;
     } else if (text.match("td")) {
       fs.appendFileSync(jsonOutput, `"lesson" : "${text}",`);
@@ -76,11 +79,11 @@ function writeInFormatJsonContent(text, compteur) {
 
 //pour la liste des etudiants
 function writeInFormatJsonStudent(text, array, i) {
-  //if (text.match("lepoivre") || text.match("benmessaoud") || text.match("marshall")){
-  //  return;
-  //} else {
-  fs.appendFileSync(jsonOutput, `{"name" : "${text}"},`);
-  //}
+  if (text == teacherName) {
+    return;
+  } else {
+    fs.appendFileSync(jsonOutput, `{"name" : "${text}"},`);
+  }
 }
 
 
@@ -102,7 +105,7 @@ client
         writeInFormatJsonStudent(detectArray[i].toLowerCase(), detectArray, i);
       }
     }
-    fs.appendFileSync(jsonOutput,`{"name" : null}`);
+    fs.appendFileSync(jsonOutput, `{"name" : null}`);
     fs.appendFileSync(jsonOutput, ']}');
     console.log(`Conversion done JSON file save at ${jsonOutput}`)
   })

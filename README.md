@@ -64,9 +64,9 @@ TODO LIST
 	* [x] teacher
 	* [x] date
 	* [x]  school
-* [ ]  Ecriture de la liste des 'Student'
+* [x]  Ecriture de la liste des 'Student'
 	* [x] liste des etudiants
-	* [ ] suppresion du professeur s'il est inclus
+	* [x] suppresion du professeur s'il est inclus
 * [ ] Ecriture des 'metadata'
 	* [ ] id
 	* [ ] title
