@@ -72,8 +72,10 @@ function writeInFormatJsonContent(text, compteur) {
   } else {
     writeInFormatJsonContentEnd(text);
   }
+  //rray.splice();
 }
 
+//pour la liste des etudiants
 function writeInFormatJsonStudent(text, array, i) {
   //if (text.match("lepoivre") || text.match("benmessaoud") || text.match("marshall")){
   //  return;
@@ -83,7 +85,6 @@ function writeInFormatJsonStudent(text, array, i) {
 }
 
 
-//First Detection with GOOGLE VISION
 client
   .documentTextDetection(fileName)
   .then(results => {
@@ -102,6 +103,7 @@ client
         writeInFormatJsonStudent(detectArray[i].toLowerCase(), detectArray, i);
       }
     }
+    fs.appendFileSync(jsonOutput,`{"name" : null}`);
     fs.appendFileSync(jsonOutput, ']}');
     console.log(`Conversion done JSON file save at ${jsonOutput}`)
   })

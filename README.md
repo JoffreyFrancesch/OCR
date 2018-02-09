@@ -55,3 +55,19 @@ students : [
 free_part : tout ce qui ne rentre pas dans les champs précédents.		
 }]
 ```
+
+TODO LIST
+---------
+
+* [x]  Ecriture du 'content'
+	* [x] lesson
+	* [x] teacher
+	* [x] date
+	* [x]  school
+* [ ]  Ecriture de la liste des 'Student'
+	* [x] liste des etudiants
+	* [ ] suppresion du professeur s'il est inclus
+* [ ] Ecriture des 'metadata'
+	* [ ] id
+	* [ ] title
+* [ ] Ecriture des informations non utilsées 
