@@ -5,6 +5,14 @@ const pdf2pic = require('pdf2pic');
 const googleUrl = require('google-url-helper');
 const fs = require('fs')
 
+
+const esilv  = require("./JSfile/esilv.js");
+const esiea = require("./JSfile/esiea.js");
+const efrei = require("./JSfile/efrei.js");
+const ece = require("./JSfile/ece.js");
+const ectei = require("./JSfile/ectei.js");
+const hetic = require("./JSfile/hetic.js");
+
 // Creates a client
 const client = new vision.ImageAnnotatorClient();
 
