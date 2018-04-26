@@ -3,18 +3,19 @@
 const vision = require('@google-cloud/vision');
 const pdf2pic = require('pdf2pic');
 const googleUrl = require('google-url-helper');
-const fs = require('fs')
+const fs = require('fs');
 
-
-const esilv  = require("./JSfile/esilv.js");
+const efrei = require('./JSfile/efrei.js');
 const esiea = require("./JSfile/esiea.js");
-const efrei = require("./JSfile/efrei.js");
+const esilv = require("./JSfile/esilv.js");
 const ece = require("./JSfile/ece.js");
 const ectei = require("./JSfile/ectei.js");
 const hetic = require("./JSfile/hetic.js");
 
 // Creates a client
-const client = new vision.ImageAnnotatorClient();
+const client = new vision.ImageAnnotatorClient({
+  keyFilename : '/Users/joffrey/Desktop/OCRPROJECT-2ccc1ef067f8.json'
+});
 
 // Create a converter
 let converter = new pdf2pic({
@@ -31,8 +32,9 @@ let converter = new pdf2pic({
 const id = 'output';
 const fileToConvert = '/Users/joffrey/Desktop/PST/fiche/EFREI.pdf'; //image a convertir
 const jsonOutput = `/Users/joffrey/Desktop/PST/JSON/${id}.json`; //fichier JSON de sortie
+var selectedSchool;
 var fileName; // fichier a etudier
-var teacherName; //sauvegarde nom du professeur pour le supprimer de la liste des etudiants
+var teacherName = null; //sauvegarde nom du professeur pour le supprimer de la liste des etudiants
 
 //Do the convertion only if is a PDF
 if (fileToConvert.endsWith(".pdf")) {
@@ -44,53 +46,26 @@ if (fileToConvert.endsWith(".pdf")) {
   fileName = fileToConvert;
 }
 
-//pour la derniere ligne de la parti content
-function writeHeaderEnd(text) {
-  if (text.match("lundi") || text.match("mardi") || text.match("mercredi") || text.match("jeudi") || text.match("vendredi") || text.match("samedi")) {
-    fs.appendFileSync(jsonOutput, `"date" : "${text}"`);
-  } else if (text.match("lepoivre") || text.match("benmessaoud") || text.match("marshall")) {
-    fs.appendFileSync(jsonOutput, `"teacher" : "${text}"`);
-    teacherName = text;
-  } else if (text.match("td")) {
-    fs.appendFileSync(jsonOutput, `"lesson" : "${text}"`);
-  } else if (text.match("efrei") || text.match("esiea") || text.match("esilv")) {
-    fs.appendFileSync(jsonOutput, `"school" : "${text}"`);
-  }
-}
-//pour les premiere lignes de la parti content
-function writeHeader(text, compteur) {
-  if (compteur < 3) {
-    if (text.match("lundi") || text.match("mardi") || text.match("mercredi") || text.match("jeudi") || text.match("vendredi") || text.match("samedi")) {
-      fs.appendFileSync(jsonOutput, `"date" : "${text}",`);
-      return true;
-    } else if (text.match("lepoivre") || text.match("benmessaoud") || text.match("marshall")) {
-      fs.appendFileSync(jsonOutput, `"teacher" : "${text}",`);
-      teacherName = text;
-      return true;
-    } else if (text.match("td")) {
-      fs.appendFileSync(jsonOutput, `"lesson" : "${text}",`);
-      return true;
-    } else if (text.match("efrei") || text.match("esiea") || text.match("esilv")) {
-      fs.appendFileSync(jsonOutput, `"school" : "${text}",`);
-      return true;
-    }
-  } else {
-    writeHeaderEnd(text);
-  }
-}
-
-//pour la liste des etudiants
-function writeStudents(text, array, i) {
-  if (text == teacherName) {
-    return;
-  } else {
-    fs.appendFileSync(jsonOutput, `{"name" : "${text}"},`);
-  }
-}
-
-// pour les meta-donnees
-function writeMetaData(id, title) {
-
+if(fileToConvert.toLowerCase().match("efrei")){
+  selectedSchool = efrei;
+  console.log("efrei" + selectedSchool);
+} else if(fileToConvert.toLowerCase().match("esiea")){
+  selectedSchool = esiea;
+  console.log("esiea");
+} else if(fileToConvert.toLowerCase().match("esilv")){
+  selectedSchool = esilv;
+  console.log("esilv");
+} else if(fileToConvert.toLowerCase().match("ece")){
+  selectedSchool = ece;
+  console.log("ece");
+} else if(fileToConvert.toLowerCase().match("ectei")){
+  selectedSchool = ectei;
+  console.log("ectei");
+} else if(fileToConvert.toLowerCase().match("hetic")){
+  selectedSchool = hetic;
+  console.log("hetic");
+} else {
+  console.log("L'école n'as pas été trouvé");
 }
 
 client
@@ -103,7 +78,7 @@ client
     fs.appendFileSync(jsonOutput, '{ "header" : {');
     //boucle pour le header
     for (var i = 0; i < detectArray.length; i++) {
-      if (writeHeader(detectArray[i].toLowerCase(), compteur, detectArray, i)) {
+      if (selectedSchool.writeHeader(detectArray[i].toLowerCase(), compteur, teacherName, jsonOutput)) {
         compteur += 1;
       }
     }
@@ -111,7 +86,7 @@ client
     //boucle pour les etudiants
     for (var i = 0; i < detectArray.length; i++) {
       if (detectArray[i].match(",")) {
-        writeStudent(detectArray[i].toLowerCase(), detectArray, i);
+        selectedSchool.writeStudent(detectArray[i].toLowerCase(), teacherName, jsonOutput);
       }
     }
     fs.appendFileSync(jsonOutput, `{"name" : null}`); //pour indiquer la fin de la liste des etudiants

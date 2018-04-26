@@ -1,4 +1,6 @@
-exports.writeHeader = function (text, compteur) {
+const fs = require('fs');
+
+exports.writeHeader = function (text, compteur, teacherName,jsonOutput) {
   if (compteur < 3) {
     if (text.match("lundi") || text.match("mardi") || text.match("mercredi") || text.match("jeudi") || text.match("vendredi") || text.match("samedi")) {
       fs.appendFileSync(jsonOutput, `"date" : "${text}",`);
@@ -15,11 +17,11 @@ exports.writeHeader = function (text, compteur) {
       return true;
     }
   } else {
-    writeHeaderEnd(text);
+    writeHeaderEnd(text, teacherName,jsonOutput);
   }
 };
 
-exports.writeHeaderEnd = function (text) {
+writeHeaderEnd = function (text , teacherName,jsonOutput) {
   if (text.match("lundi") || text.match("mardi") || text.match("mercredi") || text.match("jeudi") || text.match("vendredi") || text.match("samedi")) {
     fs.appendFileSync(jsonOutput, `"date" : "${text}"`);
   } else if (text.match("lepoivre") || text.match("benmessaoud") || text.match("marshall")) {
@@ -32,7 +34,7 @@ exports.writeHeaderEnd = function (text) {
   }
 };
 
-exports.writeStudent = function (text) {
+exports.writeStudent = function (text, teacherName,jsonOutput) {
   if (text == teacherName) {
     return;
   } else {

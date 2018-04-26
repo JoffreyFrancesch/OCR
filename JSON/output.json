@@ -1,38 +1,32 @@
 {
-  "content": {
-    "school": "yefrei",
-    "lesson": "ti105-tdi 1718s3-d / structures de données algorithmique",
-    "date": "lundi 11 septembre 2017 - 18h-19h45 - batiment : h. salle : e26",
+  "header": {
+    "school": "efrei",
+    "lesson": "t1105-td / 1718s3-d / structures de données algorithmique",
+    "date": "lundi 11 septembre 2017-18h-19h45 - batiment : h - salle: e26",
     "teacher": "enseignant : lepoivre, franck"
   },
-  "Student": [{
-    "name": "mobonnet, julien alain"
+  "students": [{
+    "name": "enseignant : lepoivre, franck"
+  }, {
+    "name": "bonnet, julien alain"
+  }, {
+    "name": "zarga, ines"
   }, {
     "name": "demouy, hugo"
   }, {
-    "name": "dukureh, haymadou"
-  }, {
-    "name": "eljaouhari, hamea"
-  }, {
-    "name": "ferreira, allan"
+    "name": "dukurek, haymadou"
   }, {
     "name": "ferreira, marie-anne"
   }, {
     "name": "geny, louise"
   }, {
-    "name": "jaber, ahmad"
-  }, {
-    "name": "jaulent, benjamin julien"
-  }, {
-    "name": "khamany, sidi"
-  }, {
     "name": "labourel, antonin"
   }, {
     "name": "lamy, louis-victor"
   }, {
-    "name": "malasse, juliette yvonne"
+    "name": "lekouara, emir mehdi"
   }, {
-    "name": "michel, adrien"
+    "name": "malasse, juliette yvonne"
   }, {
     "name": "nassar, rida"
   }, {
@@ -42,11 +36,9 @@
   }, {
     "name": "petit, cedric"
   }, {
-    "name": "porcherot, thomas rimy"
+    "name": "porcherot, thomas remy"
   }, {
     "name": "pouliquen, elodie anais"
-  }, {
-    "name": "puissant, malo"
   }, {
     "name": "ravichandran, antoine"
   }, {
@@ -54,7 +46,7 @@
   }, {
     "name": "sayed, mohamed"
   }, {
-    "name": "tadjer, ophélie derbia"
+    "name": "viguier, theo andre"
   }, {
     "name": null
   }]
