@@ -12,10 +12,10 @@ exports.writeHeader = function (text, compteur, teacherName,jsonOutput) {
     } else if (text.match("td")) {
       fs.appendFileSync(jsonOutput, `"lesson" : "${text}",`);
       return true;
-    } else if (text.match("efrei") || text.match("esiea") || text.match("esilv")) {
+    } else if (text.match("efrei")) {
       fs.appendFileSync(jsonOutput, `"school" : "${text}",`);
       return true;
-    }
+
   } else {
     writeHeaderEnd(text, teacherName,jsonOutput);
   }

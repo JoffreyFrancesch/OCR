@@ -14,7 +14,7 @@ const hetic = require("./JSfile/hetic.js");
 
 // Creates a client
 const client = new vision.ImageAnnotatorClient({
-  keyFilename : '/Users/joffrey/Desktop/OCRPROJECT-2ccc1ef067f8.json'
+  keyFilename: '/Users/joffrey/Desktop/OCRPROJECT-2ccc1ef067f8.json'
 });
 
 // Create a converter
@@ -46,22 +46,22 @@ if (fileToConvert.endsWith(".pdf")) {
   fileName = fileToConvert;
 }
 
-if(fileToConvert.toLowerCase().match("efrei")){
+if (fileToConvert.toLowerCase().match("efrei")) {
   selectedSchool = efrei;
   console.log("efrei" + selectedSchool);
-} else if(fileToConvert.toLowerCase().match("esiea")){
+} else if (fileToConvert.toLowerCase().match("esiea")) {
   selectedSchool = esiea;
   console.log("esiea");
-} else if(fileToConvert.toLowerCase().match("esilv")){
+} else if (fileToConvert.toLowerCase().match("esilv")) {
   selectedSchool = esilv;
   console.log("esilv");
-} else if(fileToConvert.toLowerCase().match("ece")){
+} else if (fileToConvert.toLowerCase().match("ece")) {
   selectedSchool = ece;
   console.log("ece");
-} else if(fileToConvert.toLowerCase().match("ectei")){
+} else if (fileToConvert.toLowerCase().match("ectei")) {
   selectedSchool = ectei;
   console.log("ectei");
-} else if(fileToConvert.toLowerCase().match("hetic")){
+} else if (fileToConvert.toLowerCase().match("hetic")) {
   selectedSchool = hetic;
   console.log("hetic");
 } else {
@@ -91,8 +91,18 @@ client
     }
     fs.appendFileSync(jsonOutput, `{"name" : null}`); //pour indiquer la fin de la liste des etudiants
     fs.appendFileSync(jsonOutput, ']}');
-    console.log(`Conversion done JSON file save at ${jsonOutput}`)
+    console.log(`Conversion done JSON file save at ${jsonOutput}`);
+    removeJPEG();
   })
   .catch(err => {
     console.error('ERROR:', err);
   });
+
+function removeJPEG() {
+  try {
+    fs.unlinkSync(fileName);
+    console.log("file at " + fileName + "delete");
+  } catch (err) {
+    console.log(err);
+  }
+}
