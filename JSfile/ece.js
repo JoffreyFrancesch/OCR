@@ -7,12 +7,12 @@ exports.writeHeader = function (text, compteur, jsonOutput) {
     if(text.match("cours")){
       fs.appendFileSync(jsonOutput, `"lesson" : "${text}",`);
       return true;
-    } else if (text.match("lepoivre") || text.match("benmessaoud") || text.match("marshall") || text.match("abroug") || text.match("imen")){
+    } else if (text.match("lepoivre") || text.match("benmessaoud") || text.match("marshall") || text.match("abroug")){
       fs.appendFileSync(jsonOutput, `"teacher" : "${text}",`);
       teacher = text;
       return true;
     } else if (text.match("groupe")){
-      fs.appendFileSync(jsonOutput, `"school" : "ECE : ${text}",`);
+      fs.appendFileSync(jsonOutput, `"school" : "${text}",`);
       return true;
     } else if(text.match("date") || text.match("dato")){
       fs.appendFileSync(jsonOutput, `"date" : "${text}",`);
@@ -23,15 +23,14 @@ exports.writeHeader = function (text, compteur, jsonOutput) {
   }
 };
 
-writeHeaderEnd = function (text, jsonOutput) {
-  console.log(text);
-  if (text.match("lepoivre") || text.match("benmessaoud") || text.match("marshall") || text.match("abroug") || text.match("imen")) {
+function writeHeaderEnd(text, jsonOutput) {
+  if (text.match("lepoivre") || text.match("benmessaoud") || text.match("marshall") || text.match("abroug")) {
     fs.appendFileSync(jsonOutput, `"teacher" : "${text}"`);
     teacher = text;
-  } else if (text.match("groupe")) {
-    fs.appendFileSync(jsonOutput, `"school" : "ECE : ${text}"`);
   } else if (text.match("date") || text.match("dato")) {
     fs.appendFileSync(jsonOutput, `"date" : "${text}"`);
+  } else if (text.match("cours")){
+    fs.appendFileSync(jsonOutput, `"lesson" : "${text}"`);
   }
 };
 
