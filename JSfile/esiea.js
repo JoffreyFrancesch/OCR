@@ -1,40 +1,37 @@
 const fs = require('fs');
 
-exports.writeHeader = function(text, compteur, teacherName, jsonOutput) {
-  //if (compteur <= 1) {
+var teacher;
+
+exports.writeHeader = function(text, compteur, jsonOutput) {
     if (text.match("lundi") ||  text.match("mardi") ||  text.match("mercredi") || text.match("jeudi") || text.match("vendredi")) {
       fs.appendFileSync(jsonOutput, `"date" : "${text}",`);
     } else if (text.match("lepoivre") || text.match("benmessaoud") || text.match("marshall")) {
       fs.appendFileSync(jsonOutput, `"teacher" : "${text}"`);
-      teacherName = text;
+      teacher = text;
       return true;
     } else if (text.match("esiea")) {
       fs.appendFileSync(jsonOutput, `"school" : "${text}",`);
       return true;
     }
-  // } else {
-  //   writeHeaderEnd(text, teacherName, jsonOutput);
-  // }
 };
 
-// writeHeaderEnd = function(text, teacherName, jsonOutput) {
-//   console.log(text);
-//   if (text.match("lundi") ||  text.match("mardi") ||  text.match("mercredi") || text.match("jeudi") || text.match("vendredi")) {
-//     fs.appendFileSync(jsonOutput, `"date" : "${text}"`);
-//   } else if (text.match("lepoivre") || text.match("benmessaoud") || text.match("marshall")) {
-//     fs.appendFileSync(jsonOutput, `"teacher" : "${text}"`);
-//     teacherName = text;
-//   } else if (text.match("esiea")) {
-//     fs.appendFileSync(jsonOutput, `"school" : "${text}"`);
-//   }
-// };
 
-exports.writeStudent = function(text, teacherName, jsonOutput) {
-  // body...
-  console.log(text)
+exports.writeStudent = function(text, jsonOutput) {
+  var regex = /^[a-zA-Z]+$/;
+  var testName = text.split(" ");
+  if(teacher != text.toLowerCase()){
+    if (isUpperCase(testName[0])) {
+      if (testName[0].match(regex)){
+        fs.appendFileSync(jsonOutput, `{"name" : "${text}"},`);
+      }
+    }
+  }
 };
 
 exports.writeMetaData = function(id, title) {
   // body...
-  console.log(text)
 };
+
+function isUpperCase(myString){
+  return (myString == myString.toUpperCase());
+}

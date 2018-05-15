@@ -1,13 +1,15 @@
 const fs = require('fs');
 
-exports.writeHeader = function (text, compteur, teacherName,jsonOutput) {
+var teacher;
+
+exports.writeHeader = function (text, compteur, jsonOutput) {
   if (compteur < 3) {
     if (text.match("lundi") || text.match("mardi") || text.match("mercredi") || text.match("jeudi") || text.match("vendredi") || text.match("samedi")) {
       fs.appendFileSync(jsonOutput, `"date" : "${text}",`);
       return true;
     } else if (text.match("lepoivre") || text.match("benmessaoud") || text.match("marshall")) {
       fs.appendFileSync(jsonOutput, `"teacher" : "${text}",`);
-      teacherName = text;
+      teacher = text;
       return true;
     } else if (text.match("td")) {
       fs.appendFileSync(jsonOutput, `"lesson" : "${text}",`);
@@ -15,18 +17,18 @@ exports.writeHeader = function (text, compteur, teacherName,jsonOutput) {
     } else if (text.match("efrei")) {
       fs.appendFileSync(jsonOutput, `"school" : "${text}",`);
       return true;
-
+    }
   } else {
-    writeHeaderEnd(text, teacherName,jsonOutput);
+    writeHeaderEnd(text, jsonOutput);
   }
 };
 
-writeHeaderEnd = function (text , teacherName,jsonOutput) {
+writeHeaderEnd = function (text, jsonOutput) {
   if (text.match("lundi") || text.match("mardi") || text.match("mercredi") || text.match("jeudi") || text.match("vendredi") || text.match("samedi")) {
     fs.appendFileSync(jsonOutput, `"date" : "${text}"`);
   } else if (text.match("lepoivre") || text.match("benmessaoud") || text.match("marshall")) {
     fs.appendFileSync(jsonOutput, `"teacher" : "${text}"`);
-    teacherName = text;
+    teacher = text;
   } else if (text.match("td")) {
     fs.appendFileSync(jsonOutput, `"lesson" : "${text}"`);
   } else if (text.match("efrei") || text.match("esiea") || text.match("esilv")) {
@@ -34,14 +36,16 @@ writeHeaderEnd = function (text , teacherName,jsonOutput) {
   }
 };
 
-exports.writeStudent = function (text, teacherName,jsonOutput) {
-  if (text == teacherName) {
-    return;
-  } else {
-    fs.appendFileSync(jsonOutput, `{"name" : "${text}"},`);
+exports.writeStudent = function (text, jsonOutput) {
+  if(text.match(",")){
+    if (text == teacher) {
+      return;
+    } else {
+      fs.appendFileSync(jsonOutput, `{"name" : "${text}"},`);
+    }
   }
 };
 
 exports.writeMetaData = function (id, title) {
-  // body...
+  
 };

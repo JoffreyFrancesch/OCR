@@ -1,19 +1,60 @@
-exports.writeHeader = function (text, compteur, teacherName, jsonOutput) {
-  // body...
-  console.log(text)
+const fs = require('fs');
+
+var teacher;
+
+exports.writeHeader = function (text, compteur, jsonOutput) {
+  if (compteur < 3) {
+    if (text.match("date")) {
+      fs.appendFileSync(jsonOutput, `"date" : "${text}",`);
+      return true;
+    } else if (text.match("lepoivre") || text.match("benmessaoud") || text.match("marshall")) {
+      fs.appendFileSync(jsonOutput, `"teacher" : "${text}",`);
+      teacher = text;
+      return true;
+    } else if (text.match("cours")) {
+      fs.appendFileSync(jsonOutput, `"lesson" : "${text}",`);
+      return true;
+    } else if (text.match("groupe")) {
+      fs.appendFileSync(jsonOutput, `"school" : "${text}",`);
+      return true;
+    }
+  } else {
+    writeHeaderEnd(text, jsonOutput);
+  }
 };
 
-exports.writeHeaderEnd = function (text, teacherName, jsonOutput) {
-  // body...
-  console.log(text)
+writeHeaderEnd = function (text, jsonOutput) {
+  if (text.match("lepoivre") || text.match("benmessaoud") || text.match("marshall")) {
+    fs.appendFileSync(jsonOutput, `"teacher" : "${text}"`);
+    teacher = text;
+  } else if (text.match("cours")) {
+    fs.appendFileSync(jsonOutput, `"lesson" : "${text}"`);
+  } else if (text.match("groupe")) {
+    fs.appendFileSync(jsonOutput, `"school" : "${text}"`);
+  } else if (text.match("date")) {
+    fs.appendFileSync(jsonOutput, `"date" : "${text}"`);
+    return true;
+  }
 };
 
-exports.writeStudent = function (text, teacherName, jsonOutput) {
-  // body...
-  console.log(text)
+exports.writeStudent = function (text, jsonOutput) {
+  var regex = /^[a-zA-Z]+$/;
+  var testName = text.split(" ");
+  if (teacher != text.toLowerCase()) {
+    if (isUpperCase(testName[0])) {
+      if (testName[0].match(regex)) {
+        fs.appendFileSync(jsonOutput, `{"name" : "${text}"},`);
+      }
+    }
+  }
 };
 
 exports.writeMetaData = function (id, title) {
   // body...
-  console.log(text)
+  //console.log(text)
 };
+
+
+function isUpperCase(myString) {
+  return (myString == myString.toUpperCase());
+}

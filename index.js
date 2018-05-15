@@ -16,7 +16,6 @@ const hetic = require("./JSfile/hetic.js");
 const client = new vision.ImageAnnotatorClient({
   keyFilename: '/Users/joffrey/Desktop/OCRPROJECT-2ccc1ef067f8.json'
 });
-
 // Create a converter
 let converter = new pdf2pic({
   density: 100,
@@ -26,47 +25,55 @@ let converter = new pdf2pic({
   size: 600
 });
 
-//file indexing
-//var url = 'https://drive.google.com/file/d/0B7mNn544KuPGSkp3dW8zc01mdW8/view';
-//const id = googleUrl.parseId(url);
 const id = 'output';
-const fileToConvert = '/Users/joffrey/Desktop/PST/fiche/EFREI.pdf'; //image a convertir
+const fileToConvert = '/Users/joffrey/Desktop/PST/fiche/ECE.pdf'; //image a convertir
 const jsonOutput = `/Users/joffrey/Desktop/PST/JSON/${id}.json`; //fichier JSON de sortie
-var selectedSchool;
-var fileName; // fichier a etudier
-var teacherName = null; //sauvegarde nom du professeur pour le supprimer de la liste des etudiants
 
-//Do the convertion only if is a PDF
-if (fileToConvert.endsWith(".pdf")) {
-  converter.convert(fileToConvert).then(resolve => {
-    console.log(`Conversion done and save at ${fileName}`);
-  })
-  fileName = './Images/FDP_1.jpeg';
-} else {
-  fileName = fileToConvert;
+ // fichier a etudier
+
+function convertToJpeg(fileToConvert){
+  var file;
+  if (fileToConvert.endsWith(".pdf")) {
+    converter.convert(fileToConvert).then(resolve => {
+      console.log(`Conversion done and save at ${file}`);
+    })
+    return file = './Images/FDP_1.jpeg';
+  } else {
+    return file = fileToConvert;
+  }
 }
 
-if (fileToConvert.toLowerCase().match("efrei")) {
-  selectedSchool = efrei;
-  console.log("efrei" + selectedSchool);
-} else if (fileToConvert.toLowerCase().match("esiea")) {
-  selectedSchool = esiea;
-  console.log("esiea");
-} else if (fileToConvert.toLowerCase().match("esilv")) {
-  selectedSchool = esilv;
-  console.log("esilv");
-} else if (fileToConvert.toLowerCase().match("ece")) {
-  selectedSchool = ece;
-  console.log("ece");
-} else if (fileToConvert.toLowerCase().match("ectei")) {
-  selectedSchool = ectei;
-  console.log("ectei");
-} else if (fileToConvert.toLowerCase().match("hetic")) {
-  selectedSchool = hetic;
-  console.log("hetic");
-} else {
-  console.log("L'école n'as pas été trouvé");
+
+
+function detectSchool(fileName){
+  var school;
+  if (fileToConvert.toLowerCase().match("efrei")) {
+    school = efrei;
+    console.log("efrei");
+  } else if (fileToConvert.toLowerCase().match("esiea")) {
+    school = esiea;
+    console.log("esiea");
+  } else if (fileToConvert.toLowerCase().match("esilv")) {
+    school = esilv;
+    console.log("esilv");
+  } else if (fileToConvert.toLowerCase().match("ece")) {
+    school = ece;
+    console.log("ece");
+  } else if (fileToConvert.toLowerCase().match("ectei")) {
+    school = ectei;
+    console.log("ectei");
+  } else if (fileToConvert.toLowerCase().match("hetic")) {
+    school = hetic;
+    console.log("hetic");
+  } else {
+    console.log("L'école n'as pas été trouvé");
+  }
+  return school;
 }
+
+
+var fileName = convertToJpeg(fileToConvert);
+var selectedSchool = detectSchool(fileName);
 
 client
   .documentTextDetection(fileName)
@@ -74,29 +81,26 @@ client
     var detect = results[0].fullTextAnnotation
     var detectArray = detect.text.split("\n");
     var compteur = 0;
-    //TODO ecrire les meta-donnees ici
     fs.appendFileSync(jsonOutput, '{ "header" : {');
-    //boucle pour le header
     for (var i = 0; i < detectArray.length; i++) {
-      if (selectedSchool.writeHeader(detectArray[i].toLowerCase(), compteur, teacherName, jsonOutput)) {
+      if (selectedSchool.writeHeader(detectArray[i].toLowerCase(), compteur, jsonOutput)) {
         compteur += 1;
       }
     }
     fs.appendFileSync(jsonOutput, '}, "students" : [');
-    //boucle pour les etudiants
     for (var i = 0; i < detectArray.length; i++) {
-      if (detectArray[i].match(",")) {
-        selectedSchool.writeStudent(detectArray[i].toLowerCase(), teacherName, jsonOutput);
-      }
+      selectedSchool.writeStudent(detectArray[i], jsonOutput);
     }
     fs.appendFileSync(jsonOutput, `{"name" : null}`); //pour indiquer la fin de la liste des etudiants
     fs.appendFileSync(jsonOutput, ']}');
     console.log(`Conversion done JSON file save at ${jsonOutput}`);
-    removeJPEG();
+    //removeJPEG();
   })
   .catch(err => {
     console.error('ERROR:', err);
   });
+
+
 
 function removeJPEG() {
   try {
