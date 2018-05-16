@@ -1,4 +1,4 @@
-const pdf2pic = require('pdf2pic');
+const pdf2pic = require('pdf2pic').default;
 const idFile = require('./JSON/files.json');
 const fs = require('fs');
 

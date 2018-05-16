@@ -1,20 +1,15 @@
 const vision = require('@google-cloud/vision');
 const fs = require('fs');
-
+const idFile = require('./JSON/files.json');
 const efrei = require('./JSfile/efrei.js');
 const esiea = require("./JSfile/esiea.js");
 const esilv = require("./JSfile/esilv.js");
 const ece = require("./JSfile/ece.js");
 const ectei = require("./JSfile/ectei.js");
 const hetic = require("./JSfile/hetic.js");
-
-// Creates a client
 const client = new vision.ImageAnnotatorClient({
   keyFilename: '/Users/joffrey/Desktop/OCRPROJECT-2ccc1ef067f8.json'
 });
-
-
-const idFile = require('./JSON/files.json');
 
 idFile.files.forEach(element => {
   var file = `./Images/${element.id}_1.jpeg`;
@@ -23,8 +18,6 @@ idFile.files.forEach(element => {
   OCR(file, jsonOutput, selectedSchool);
   console.log("OK for " + file);
 });
-
-
 
 function detectSchool(fileName){
   var school;
@@ -52,8 +45,6 @@ function detectSchool(fileName){
   return school;
 }
 
-
-
 function OCR(fileName, jsonOutput, selectedSchool){
   client
     .documentTextDetection(fileName)
@@ -74,20 +65,17 @@ function OCR(fileName, jsonOutput, selectedSchool){
       fs.appendFileSync(jsonOutput, `{"name" : null}`); //pour indiquer la fin de la liste des etudiants
       fs.appendFileSync(jsonOutput, ']}');
       console.log(`Conversion done JSON file save at ${jsonOutput}`);
-      //removeJPEG();
+      removeJPEG(fileName);
     })
     .catch(err => {
       console.error('ERROR:', err);
     });
 }
 
-
-
-
-function removeJPEG() {
+function removeJPEG(fileName) {
   try {
     fs.unlinkSync(fileName);
-    console.log("file at " + fileName + "delete");
+    console.log("FILE AT " + fileName + " DELETE");
   } catch (err) {
     console.log(err);
   }
