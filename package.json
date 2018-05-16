@@ -4,19 +4,19 @@
   "description": "projet ocr",
   "main": "index.js",
   "scripts": {
-    "convert" : "node converter.js",
-    "start" : "node index.js",
+    "convert": "node converter.js",
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@google-cloud/storage": "^1.5.0",
+    "@google-cloud/storage": "^1.6.0",
     "@google-cloud/vision": "^0.14.0",
-    "express": "^4.16.2",
+    "express": "^4.16.3",
     "google-url-helper": "^1.0.3",
     "jsonfile": "^4.0.0",
     "pdf2image": "^1.2.3",
-    "pdf2pic": "^1.1.7"
+    "pdf2pic": "^1.2.6"
   }
 }
