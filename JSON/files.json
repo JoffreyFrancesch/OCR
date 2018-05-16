@@ -1,0 +1,23 @@
+{
+    "files": [{
+            "id": "ECE",
+            "school": "ECE"
+        },
+        {
+            "id": "ESIEA",
+            "school": "ESIEA"
+        },
+        {
+            "id": "HETIC",
+            "school": "HETIC"
+        },
+        {
+            "id": "ESILV",
+            "school": "ESILV"
+        },
+        {
+            "id": "EFREI",
+            "school": "EFREI"
+        }
+    ]
+}

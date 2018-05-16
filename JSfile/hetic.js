@@ -1,5 +1,7 @@
 const fs = require('fs');
 
+var teacher;
+
 exports.writeHeader = function (text, compteur, jsonOutput) {
   if(compteur < 3){
     if(text.match("cours")){

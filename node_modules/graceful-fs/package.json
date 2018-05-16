@@ -23,6 +23,8 @@
   },
   "_requiredBy": [
     "/configstore",
+    "/fs-extra",
+    "/jsonfile",
     "/write-file-atomic"
   ],
   "_resolved": "https://registry.npmjs.org/graceful-fs/-/graceful-fs-4.1.11.tgz",
