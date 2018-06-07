@@ -8,7 +8,7 @@ const ece = require("./JSfile/ece.js");
 const ectei = require("./JSfile/ectei.js");
 const hetic = require("./JSfile/hetic.js");
 const client = new vision.ImageAnnotatorClient({
-  keyFilename: '/Users/joffrey/Desktop/OCRPROJECT-2ccc1ef067f8.json'
+  keyFilename: '/Users/joffrey/Desktop/OCRPROJECT.json'
 });
 
 idFile.files.forEach(element => {

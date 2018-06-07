@@ -38,8 +38,8 @@ writeHeaderEnd = function (text, jsonOutput) {
 
 exports.writeStudent = function (text, jsonOutput) {
   if(text.match(",")){
-    if (text == teacher) {
-      return;
+    if (text.toLowerCase() == teacher) {
+      return true;
     } else {
       fs.appendFileSync(jsonOutput, `{"name" : "${text}"},`);
     }
@@ -47,5 +47,5 @@ exports.writeStudent = function (text, jsonOutput) {
 };
 
 exports.writeMetaData = function (id, title) {
-  
+
 };
